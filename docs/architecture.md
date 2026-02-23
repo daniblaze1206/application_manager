@@ -75,3 +75,26 @@ Design Decisions:
 - enums ensure consistent data.
 - applicationDate is separate form createdAt.
 - status defaults to NOT_APPLIED.
+
+## Authentication & Security Design
+The authentication method of the system is JSON Web Token (JWT).
+
+Flow:
+
+User logs in.
+Backend verifies credentials.
+Backend generates signed JWT.
+Token returned to client.
+Client sends token in authorization header.
+
+Token :
+	contains: userId
+	ExpirationL: 1 day
+	signed using enviroment secret
+
+Security Decisions:
+- Passwords are hashed.
+- JWT secret stored in enviroment variables.
+- All protected routes require valid token.
+- userId expected from token (not from client).
+- All application queries filtered by userId.
