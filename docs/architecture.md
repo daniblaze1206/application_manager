@@ -124,5 +124,47 @@ Principles:
 - Consistent JSON responses
 
 
+## Folder Structure:
+backend structure:
+	backend/
+		- src/
+			- controllers/
+			- services/
+			- models/
+			- routes/ 
+			- middlewares/
+			- validators/
+			- configs/
+			- utils/
+		- app.js
+serparation of concerns:
+- Routes define endpoints.
+- Controllers handle validating receiving input using validators and return the output sevice.
+- Services handles the business logic of the backend.
+- Models define schema.
+- Middleware handles authentication.
+- Validators handle validation.
+- Configs manage enviroment logic.
+reason:
+Improves scalability, readability and maintainability.
 
+## Deployment Strategy
 
+The backend will be deployed as a publicly accessible Node.js service using a cloud hosting provider. The service will run in a production environment with environment variables configured for sensitive values such as the database connection string and JWT secret.
+
+The frontend will be served as static assets and will communicate with the deployed backend through its public REST API endpoint.
+
+Environment Configuration:
+
+The following values will be managed using environment variables:
+- Database connection string
+- JWT secret
+- Server port
+- Production API base URL
+
+Production Considerations:
+
+- CORS configuration to allow frontend-backend communication
+- Secure storage of secrets
+- Proper error handling without exposing internal details
+- HTTPS-enabled hosting environment
