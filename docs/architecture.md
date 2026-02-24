@@ -98,3 +98,31 @@ Security Decisions:
 - All protected routes require valid token.
 - userId expected from token (not from client).
 - All application queries filtered by userId.
+
+## API Design 
+
+Authentication Routes (Public):
+- POST /api/auth/register
+- POST /api/auth/login
+
+Application Routes (Protected):
+- POST /api/applications
+- GET /api/applications
+- GET /api/applications/:id
+- PUT /api/applications/:id
+- DELETE api/applications/:id
+
+Filtering routes examples:
+- GET /api/applications?status=APPLIED
+- GET /api/applications?country=Germany
+- GET /api/applications?search=apply_program_name
+
+Principles: 
+- RESTful resource-based routing
+- Stateless requests
+- Ownership enforcement
+- Consistent JSON responses
+
+
+
+
