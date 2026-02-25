@@ -136,7 +136,7 @@ backend structure:
 			- validators/
 			- configs/
 			- utils/
-		- app.js
+			- app.js
 serparation of concerns:
 - Routes define endpoints.
 - Controllers handle validating receiving input using validators and return the output sevice.
