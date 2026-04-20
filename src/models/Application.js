@@ -1,51 +1,52 @@
 const mongoose = require('mongoose');
 
-const applicationSchema = new mongoose.Schema({
-	
+const applicationModel = new mongoose.Schema({
 	userId: {
-		type: mongoose.Schema.Types.ObjectId,
+		type: mongoose.Types.ObjectId,
 		ref: 'User',
-		required: true,
-		index: true
+		required: true
 	},
 	universityName: {
 		type: String,
 		required: true,
-		trim: true
+		lowercase: true,
+		trim: true,
 	},
 	country: {
-		type: String, 
+		type: String,
 		required: true,
+		lowercase: true,
 		trim: true
 	},
 	programName: {
-		type: String, 
+		type: String,
 		required: true,
+		lowercase: true,
 		trim: true
 	},
 	contactEmail: {
 		type: String,
-		trim: true,
-		lowercase: true
+		lowercase: true,
+		trim: true
 	},
 	applicationMethod: {
 		type: String,
-		enum: ['EMAIL', 'PORTAL'],
-		required:true
+		enum: ["EMAIL", "PORTAL"],
+		requried: true
 	},
 	applicationDate: {
 		type: Date,
 		required: true
 	},
 	status: {
-		type: String,
+		type: String, 
 		enum: ['NOT_APPLIED', 'EMAIL_SENT', 'APPLIED_PORTAL', 'INTERVIEW', 'REJECTED', 'ACCEPTED'],
-		default: 'NOT_APPLIED',
+		required: true
 	},
-	notes: {
+	note: {
 		type: String,
-	},
+	}
 
 }, { timestamps: true });
 
-module.exports = mongoose.model('Application', applicationSchema);
+module.exports = mongoose.model('Application', applicationModel);

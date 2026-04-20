@@ -1,24 +1,24 @@
 const Validator = require('fastest-validator');
-
 const v = new Validator();
 
 const schema = {
-	username :{
-		type: 'string',
-		minlength: 4,
-		required: true
+	username: {
+		type: "string",
+		required: true,
+		unique: true
 	},
 	email: {
-		type: 'email',
-		required: true
+		type: "email",
+		required: true,
+		unique: true
 	},
 	password: {
-		type: 'string',
+		type: "string",
 		minlength: 8,
 		required: true
 	},
 	confirmPassword: {
-		type: 'equal',
+		type: "equal",
 		field: 'password',
 		required: true
 	},
