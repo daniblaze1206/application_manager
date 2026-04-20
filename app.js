@@ -1,18 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-const dbConnect = require('./src/configs/db');
-
-dbConnect();
-const PORT = process.env.PORT || 3000;
+require('./src/configs/db');
+const PORT = process.env.PORT || 5000;
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded());
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
 
-
-app.use('/', (req, res) => {
-	res.status(200).json({ message: 'Welcome to the Application Manager'});
-});
 
 
 
