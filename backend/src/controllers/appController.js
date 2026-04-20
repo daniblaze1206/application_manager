@@ -1,5 +1,5 @@
 const applicationModel = require("../models/Application");
-const applicationValidator = require("../validator/applicationValidator");
+const applicationValidator = require("../validators/applicationValidator");
 const { isValidObjectId } = require("mongoose");
 
 const createApplication = async (req, res) => {

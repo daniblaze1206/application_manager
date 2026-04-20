@@ -1,5 +1,5 @@
 const userModel = require("../models/User");
-const registerValidator = require("../validator/registerValidator");
+const registerValidator = require("../validators/registerValidator");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();

@@ -1,5 +1,5 @@
 {
-  "name": "application_manager",
+  "name": "Application_Manager",
   "version": "1.0.0",
   "description": "a simple web-based application that helps students track and manage their university applications for studying abroad. Students typically email or apply to many universities and need a structured way to track where they have applied, who they have contacted, and what the current status of each application is.",
   "main": "app.js",
