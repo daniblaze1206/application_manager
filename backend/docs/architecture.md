@@ -106,16 +106,11 @@ Authentication Routes (Public):
 - POST /api/auth/login
 
 Application Routes (Protected):
-- POST /api/applications
-- GET /api/applications
-- GET /api/applications/:id
+- POST /api/applications/create
+- GET /api/applicationsm/me
+- GET /api/applications/filters
 - PUT /api/applications/:id
 - DELETE api/applications/:id
-
-Filtering routes examples:
-- GET /api/applications?status=APPLIED
-- GET /api/applications?country=Germany
-- GET /api/applications?search=apply_program_name
 
 Principles: 
 - RESTful resource-based routing
@@ -129,18 +124,15 @@ backend structure:
 	backend/
 		- src/
 			- controllers/
-			- services/
 			- models/
 			- routes/ 
 			- middlewares/
 			- validators/
 			- configs/
-			- utils/
 			- app.js
 serparation of concerns:
 - Routes define endpoints.
-- Controllers handle validating receiving input using validators and return the output sevice.
-- Services handles the business logic of the backend.
+- Controllers handle validating receiving input using validators and the business logic of the backend.
 - Models define schema.
 - Middleware handles authentication.
 - Validators handle validation.
@@ -152,7 +144,7 @@ Improves scalability, readability and maintainability.
 
 The backend will be deployed as a publicly accessible Node.js service using a cloud hosting provider. The service will run in a production environment with environment variables configured for sensitive values such as the database connection string and JWT secret.
 
-The frontend will be served as static assets and will communicate with the deployed backend through its public REST API endpoint.
+The frontend is a React single‑page application (SPA) that communicates with the backend via its public REST API.
 
 Environment Configuration:
 
