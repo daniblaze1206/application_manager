@@ -292,7 +292,7 @@ Returns the options of the filter fields:
 
 ### Update Application
 
-PUT /api/applications/:id
+PATCH /api/applications/:id
 
 
 ---
