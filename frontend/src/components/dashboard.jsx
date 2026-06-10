@@ -88,7 +88,7 @@ export default function Dashboard() {
 
     if (filters.country) params.append("country", filters.country);
     if (filters.status) params.append("status", filters.status);
-    if (filters.method) params.append("method", filters.method);
+    if (filters.method) params.append("applicationMethod", filters.method);
 
     fetchApplications("?" + params.toString());
   }
