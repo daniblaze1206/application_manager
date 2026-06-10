@@ -68,7 +68,7 @@ const createApplication = async (req, res) => {
 
 const getAllUserApplications = async (req, res) => {
   const user = req.user;
-  const { country, status, applicationMethod } = req.query;
+  const { country, status, applicationMethod, universityName } = req.query;
   try {
     if (!user) return res.status(401).json({ message: "Unauthorized" });
 
@@ -77,6 +77,7 @@ const getAllUserApplications = async (req, res) => {
     if (status) query.status = status;
     if (applicationMethod)
       query.applicationMethod = applicationMethod.trim().toLowerCase();
+    if(universityName) query.universityName = universityName.trim().toLowerCase();
 
     const userApplications = await applicationModel.find(query);
 
@@ -166,10 +167,14 @@ const getApplicationFilters = async (req, res) => {
     const method = await applicationModel.distinct("applicationMethod", {
       userId: user._id,
     });
+    const universities = await applicationModel.distinct("universityName", {
+      userId: user._id,
+    });
 
     return res.status(200).json({
       success: true,
       filters: {
+        universities,
         countries,
         status,
         method,
