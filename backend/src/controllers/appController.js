@@ -91,13 +91,11 @@ const getAllUserApplications = async (req, res) => {
       applications: userApplications,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "server error: ",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "server error: ",
+      error: error.message,
+    });
   }
 };
 
@@ -107,7 +105,10 @@ const updateApplication = async (req, res) => {
 
   try {
     const updatedApplication = await applicationModel.findByIdAndUpdate(
-      id,
+      {
+        _id: id,
+        userId: req.user._id,
+      },
       updatedData,
       { new: true },
     );
@@ -116,32 +117,37 @@ const updateApplication = async (req, res) => {
     }
     return res.status(200).json(updatedApplication);
   } catch (error) {
-    return res.status(500).json({ message: "server error: ", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "server error: ", error: error.message });
   }
 };
 
 const deleteApplication = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
-   
-    const deletedApplication = await applicationModel.findByIdAndDelete(id);
-    
+    const deletedApplication = await applicationModel.findByIdAndDelete(
+      {
+        _id: id,
+        userId: req.user._id
+      }
+    );
+
     if (!deletedApplication) {
       return res.status(404).json({ message: "application not found" });
     }
-    
-    
-    return res.status(200).json({ 
-        message: "application deleted successfully",
-        application: deletedApplication 
+
+    return res.status(200).json({
+      message: "application deleted successfully",
+      application: deletedApplication,
     });
   } catch (error) {
-   
-    return res.status(500).json({ message: "server error: ", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "server error: ", error: error.message });
   }
 };
-
 
 const getApplicationFilters = async (req, res) => {
   const user = req.user;
