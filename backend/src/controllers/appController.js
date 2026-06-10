@@ -68,7 +68,7 @@ const createApplication = async (req, res) => {
 
 const getAllUserApplications = async (req, res) => {
   const user = req.user;
-  const { country, status, applicationMethod } = req.query;
+  const { country, status, applicationMethod, universityName } = req.query;
   try {
     if (!user) return res.status(401).json({ message: "Unauthorized" });
 
@@ -77,6 +77,7 @@ const getAllUserApplications = async (req, res) => {
     if (status) query.status = status;
     if (applicationMethod)
       query.applicationMethod = applicationMethod.trim().toLowerCase();
+    if(universityName) query.universityName = universityName.trim().toLowerCase();
 
     const userApplications = await applicationModel.find(query);
 
@@ -91,13 +92,11 @@ const getAllUserApplications = async (req, res) => {
       applications: userApplications,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({
-        success: false,
-        message: "server error: ",
-        error: error.message,
-      });
+    return res.status(500).json({
+      success: false,
+      message: "server error: ",
+      error: error.message,
+    });
   }
 };
 
@@ -107,7 +106,10 @@ const updateApplication = async (req, res) => {
 
   try {
     const updatedApplication = await applicationModel.findByIdAndUpdate(
-      id,
+      {
+        _id: id,
+        userId: req.user._id,
+      },
       updatedData,
       { new: true },
     );
@@ -116,32 +118,37 @@ const updateApplication = async (req, res) => {
     }
     return res.status(200).json(updatedApplication);
   } catch (error) {
-    return res.status(500).json({ message: "server error: ", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "server error: ", error: error.message });
   }
 };
 
 const deleteApplication = async (req, res) => {
   const { id } = req.params;
-  
+
   try {
-   
-    const deletedApplication = await applicationModel.findByIdAndDelete(id);
-    
+    const deletedApplication = await applicationModel.findByIdAndDelete(
+      {
+        _id: id,
+        userId: req.user._id
+      }
+    );
+
     if (!deletedApplication) {
       return res.status(404).json({ message: "application not found" });
     }
-    
-    
-    return res.status(200).json({ 
-        message: "application deleted successfully",
-        application: deletedApplication 
+
+    return res.status(200).json({
+      message: "application deleted successfully",
+      application: deletedApplication,
     });
   } catch (error) {
-   
-    return res.status(500).json({ message: "server error: ", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "server error: ", error: error.message });
   }
 };
-
 
 const getApplicationFilters = async (req, res) => {
   const user = req.user;
@@ -160,10 +167,14 @@ const getApplicationFilters = async (req, res) => {
     const method = await applicationModel.distinct("applicationMethod", {
       userId: user._id,
     });
+    const universities = await applicationModel.distinct("universityName", {
+      userId: user._id,
+    });
 
     return res.status(200).json({
       success: true,
       filters: {
+        universities,
         countries,
         status,
         method,

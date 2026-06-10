@@ -7,12 +7,14 @@ export default function Dashboard() {
   const [applications, setApplications] = useState([]);
 
   const [filters, setFilters] = useState({
+    universityName: "",
     country: "",
     status: "",
     method: "",
   });
 
   const [filterOptions, setFilterOptions] = useState({
+    universities: [],
     countries: [],
     status: [],
     method: [],
@@ -32,7 +34,6 @@ export default function Dashboard() {
     note: "",
   });
 
- 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) window.location.href = "/login";
@@ -44,7 +45,6 @@ export default function Dashboard() {
     await Promise.all([fetchFilters(), fetchApplications()]);
   }
 
-  
   async function fetchFilters() {
     const token = localStorage.getItem("token");
 
@@ -58,12 +58,12 @@ export default function Dashboard() {
     const obj = data.filters || data.data || data;
 
     setFilterOptions({
+      universities: obj.universities || [],
       countries: obj.countries || [],
       status: obj.status || [],
       method: obj.method || [],
     });
   }
-
 
   async function fetchApplications(query = "") {
     const token = localStorage.getItem("token");
@@ -77,23 +77,22 @@ export default function Dashboard() {
     const data = await res.json();
 
     if (Array.isArray(data)) setApplications(data);
-    else if (Array.isArray(data.applications)) setApplications(data.applications);
+    else if (Array.isArray(data.applications))
+      setApplications(data.applications);
     else if (Array.isArray(data.data)) setApplications(data.data);
     else setApplications([]);
   }
-
 
   function applyFilters() {
     const params = new URLSearchParams();
 
     if (filters.country) params.append("country", filters.country);
     if (filters.status) params.append("status", filters.status);
-    if (filters.method) params.append("method", filters.method);
+    if (filters.method) params.append("applicationMethod", filters.method);
 
     fetchApplications("?" + params.toString());
   }
 
- 
   function openCreateModal() {
     setEditingId(null);
     setForm({
@@ -133,7 +132,6 @@ export default function Dashboard() {
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -141,9 +139,7 @@ export default function Dashboard() {
 
     const isEdit = !!editingId;
 
-    const url = isEdit
-      ? `${API_BASE}/${editingId}`
-      : `${API_BASE}/create`;
+    const url = isEdit ? `${API_BASE}/${editingId}` : `${API_BASE}/create`;
 
     const method = isEdit ? "PATCH" : "POST";
 
@@ -178,7 +174,6 @@ export default function Dashboard() {
     fetchApplications();
   }
 
-  
   async function deleteApp(id) {
     if (!confirm("Delete this application?")) return;
 
@@ -204,12 +199,9 @@ export default function Dashboard() {
     window.location.href = "/login";
   }
 
-  
   return (
     <div className="dashboard-container">
       <main className="main-content">
-
-      
         <header className="topbar">
           <h1>Applications</h1>
 
@@ -224,8 +216,24 @@ export default function Dashboard() {
           </div>
         </header>
 
-        
         <section className="filters">
+          <select
+            value={filters.universityName}
+            onChange={(e) =>
+              setFilters({
+                ...filters,
+                universityName: e.target.value,
+              })
+            }
+          >
+            <option value="">All Universities</option>
+
+            {filterOptions.universities.map((u, i) => (
+              <option key={i} value={u._id || u}>
+                {u._id || u}
+              </option>
+            ))}
+          </select>
           <select
             value={filters.country}
             onChange={(e) =>
@@ -242,9 +250,7 @@ export default function Dashboard() {
 
           <select
             value={filters.status}
-            onChange={(e) =>
-              setFilters({ ...filters, status: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
           >
             <option value="">All Statuses</option>
             {filterOptions.status.map((s, i) => (
@@ -256,9 +262,7 @@ export default function Dashboard() {
 
           <select
             value={filters.method}
-            onChange={(e) =>
-              setFilters({ ...filters, method: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, method: e.target.value })}
           >
             <option value="">All Methods</option>
             {filterOptions.method.map((m, i) => (
@@ -273,7 +277,6 @@ export default function Dashboard() {
           </button>
         </section>
 
-        
         <section className="data">
           <table>
             <thead>
@@ -337,18 +340,13 @@ export default function Dashboard() {
         </section>
       </main>
 
-      
       {isModalOpen && (
         <div className="modal-overlay active">
           <div className="modal-content">
-            <h2>
-              {editingId ? "Edit Application" : "Add New Application"}
-            </h2>
+            <h2>{editingId ? "Edit Application" : "Add New Application"}</h2>
 
             <form onSubmit={handleSubmit} id="createAppForm">
-
               <div className="form-grid">
-
                 <div className="form-group">
                   <label>University Name *</label>
                   <input
@@ -435,7 +433,6 @@ export default function Dashboard() {
                     onChange={handleChange}
                   />
                 </div>
-
               </div>
 
               <button className="btn-primary modal-btn" type="submit">

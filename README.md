@@ -36,7 +36,7 @@ The system follows a **client–server architecture**.
 
 # Project Structure
 
-
+```
 backend/
   src/
     controllers/
@@ -49,7 +49,7 @@ backend/
 
 frontend/
   (React application)
-
+```
 
 ## Responsibilities
 
@@ -67,73 +67,73 @@ This separation improves **scalability, readability, and maintainability**.
 # How to Run the Project
 
 ## 1. Clone the Repository
-bash
+```bash
 git clone https://github.com/DaniBlaze1206/Application_Manager.git
 cd Application_Manager
-
+```
 ---
 
 # Running the Backend
 
 ## 1. Navigate to the backend directory
-bash
+```bash
 cd backend
-
+```
 
 ## 2. Install dependencies
-bash
+```bash
 npm install
-
+```
 
 ## 3. Create environment file
 Create a `.env` file inside the backend folder.
 
 Example:
-
+```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/Application_Manager
 JWT_SECRET=your_secret_key
 NODE_ENV=development
-
+```
 
 ## 4. Start the backend server
-bash
+```bash
 npm start
-
+```
 
 or if using nodemon:
-bash
+```bash
 npm run dev
-
+```
 
 The backend server will run on:
-
+```
 http://localhost:5000
-
+```
 
 ---
 
 # Running the Frontend
 
 ## 1. Navigate to the frontend directory
-bash
+```bash
 cd frontend
-
+```
 
 ## 2. Install dependencies
-bash
+```bash
 npm install
-
+```
 
 ## 3. Start the development server
-bash
+```bash
 npm run dev
-
+```
 
 The frontend will run on:
-
+```
 http://localhost:5173
-
+```
 Open the browser and navigate to that address.
 
 ---
@@ -150,9 +150,9 @@ Authentication is implemented using **JSON Web Tokens (JWT)**.
 5. Client sends token in the `Authorization` header
 
 Example header:
-
+```
 Authorization: Bearer <token>
-
+```
 
 ## Token Details
 - Contains: `userId`
@@ -199,9 +199,9 @@ Fields:
 - updatedAt
 
 Relationship:
-
+```
 User (1) → (N) Applications
-
+```
 
 Design decisions:
 - Separate collections improve scalability
@@ -217,31 +217,31 @@ Design decisions:
 ## Authentication Routes (Public)
 
 ### Register User
-
+```
 POST /api/auth/register
-
+```
 Request body:
-json
+```json
 {
   "username": "student123",
   "email": "student@email.com",
   "password": "password123",
   "confirmPassword": "password123"
 }
-
+```
 ---
 
 ### Login
-
+```
 POST /api/auth/login
-
+```
 Request body:
-json
+```json
 {
   "identifier": "email or username",
   "password": "password123"
 }
-
+```
 Response includes JWT token.
 
 ---
@@ -253,11 +253,11 @@ All routes below require a valid **JWT token**.
 ---
 
 ### Create Application
-
+```
 POST /api/applications/create
-
+```
 Example request:
-json
+```json
 {
   "universityName": "MIT",
   "country": "USA",
@@ -268,22 +268,22 @@ json
   "status": "NOT_APPLIED",
   "notes": "Prepare recommendation letters"
 }
-
+```
 ---
 
 ### Get Authenticated User's Applications
-
+```
 GET /api/applications/me
-
+```
 Returns all applications with applied filters belonging to the authenticated user.
 
 ---
 
 ### Filter Options
-
+```
 GET /api/applications/filters
-
-Returns the options of the filter fields:
+```
+Returns options for filter fields such as:
 - country
 - status
 - application method
@@ -291,16 +291,16 @@ Returns the options of the filter fields:
 ---
 
 ### Update Application
-
+```
 PATCH /api/applications/:id
-
+`````
 
 ---
 
 ### Delete Application
-
+```
 DELETE /api/applications/:id
-
+```
 
 ---
 
