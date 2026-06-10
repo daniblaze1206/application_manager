@@ -7,7 +7,7 @@ require("dotenv").config();
 const register = async (req, res) => {
   try {
     const validationResult = registerValidator(req.body);
-    if (!validationResult) {
+    if (validationResult && validationResult.length > 0) {
       return res.status(422).json({ message: "invalid input" });
     }
     const { username, email, password } = req.body;
