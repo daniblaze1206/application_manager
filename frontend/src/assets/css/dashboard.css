@@ -299,7 +299,7 @@ textarea {
 .stat-card {
   flex: 1;
   min-width: 160px;
-  background: white;
+  background: rgba(99, 102, 241, 0.5);
   padding: 1rem;
   border-radius: 10px;
   text-align: center;
