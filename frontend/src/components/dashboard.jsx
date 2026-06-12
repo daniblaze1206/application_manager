@@ -14,7 +14,6 @@ export default function Dashboard() {
   });
 
   const [filterOptions, setFilterOptions] = useState({
-    universities: [],
     countries: [],
     status: [],
     method: [],
@@ -58,7 +57,6 @@ export default function Dashboard() {
     const obj = data.filters || data.data || data;
 
     setFilterOptions({
-      universities: obj.universities || [],
       countries: obj.countries || [],
       status: obj.status || [],
       method: obj.method || [],
@@ -269,7 +267,9 @@ export default function Dashboard() {
         </section>
 
         <section className="filters">
-          <select
+          <input
+            type="text"
+            placeholder="Search university..."
             value={filters.universityName}
             onChange={(e) =>
               setFilters({
@@ -277,15 +277,7 @@ export default function Dashboard() {
                 universityName: e.target.value,
               })
             }
-          >
-            <option value="">All Universities</option>
-
-            {filterOptions.universities.map((u, i) => (
-              <option key={i} value={u._id || u}>
-                {u._id || u}
-              </option>
-            ))}
-          </select>
+          />
           <select
             value={filters.country}
             onChange={(e) =>

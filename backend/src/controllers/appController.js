@@ -77,8 +77,12 @@ const getAllUserApplications = async (req, res) => {
     if (status) query.status = status;
     if (applicationMethod)
       query.applicationMethod = applicationMethod.trim().toLowerCase();
-    if(universityName) query.universityName = universityName.trim().toLowerCase();
-
+    if (universityName) {
+      query.universityName = {
+        $regex: universityName.trim(),
+        $options: "i",
+      };
+    }
     const userApplications = await applicationModel.find(query);
 
     if (!userApplications.length) {
@@ -128,12 +132,10 @@ const deleteApplication = async (req, res) => {
   const { id } = req.params;
 
   try {
-    const deletedApplication = await applicationModel.findByIdAndDelete(
-      {
-        _id: id,
-        userId: req.user._id
-      }
-    );
+    const deletedApplication = await applicationModel.findByIdAndDelete({
+      _id: id,
+      userId: req.user._id,
+    });
 
     if (!deletedApplication) {
       return res.status(404).json({ message: "application not found" });
@@ -167,14 +169,11 @@ const getApplicationFilters = async (req, res) => {
     const method = await applicationModel.distinct("applicationMethod", {
       userId: user._id,
     });
-    const universities = await applicationModel.distinct("universityName", {
-      userId: user._id,
-    });
+
 
     return res.status(200).json({
       success: true,
       filters: {
-        universities,
         countries,
         status,
         method,
