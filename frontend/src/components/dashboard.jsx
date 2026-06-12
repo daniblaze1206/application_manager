@@ -88,6 +88,10 @@ export default function Dashboard() {
     if (filters.status) params.append("status", filters.status);
     if (filters.method) params.append("applicationMethod", filters.method);
 
+    if (filters.universityName) {
+      params.append("universityName", filters.universityName);
+    }
+
     fetchApplications("?" + params.toString());
   }
 
