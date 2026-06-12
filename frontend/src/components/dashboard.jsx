@@ -198,6 +198,27 @@ export default function Dashboard() {
     localStorage.removeItem("token");
     window.location.href = "/login";
   }
+  const totalApplications = applications.length;
+
+  const totalUniversities = new Set(
+    applications.map((app) => app.universityName),
+  ).size;
+
+  const acceptedCount = applications.filter(
+    (app) => app.status === "ACCEPTED",
+  ).length;
+
+  const rejectedCount = applications.filter(
+    (app) => app.status === "REJECTED",
+  ).length;
+
+  const interviewCount = applications.filter(
+    (app) => app.status === "INTERVIEW",
+  ).length;
+
+  const appliedCount = applications.filter(
+    (app) => app.status === "APPLIED_PORTAL",
+  ).length;
 
   return (
     <div className="dashboard-container">
@@ -215,6 +236,37 @@ export default function Dashboard() {
             </button>
           </div>
         </header>
+        <section className="dashboard-stats">
+          <div className="stat-card">
+            <h3>Total Universities</h3>
+            <p>{totalUniversities}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Total Applications</h3>
+            <p>{totalApplications}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Accepted</h3>
+            <p>{acceptedCount}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Rejected</h3>
+            <p>{rejectedCount}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Interview</h3>
+            <p>{interviewCount}</p>
+          </div>
+
+          <div className="stat-card">
+            <h3>Applied</h3>
+            <p>{appliedCount}</p>
+          </div>
+        </section>
 
         <section className="filters">
           <select
