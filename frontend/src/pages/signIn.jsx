@@ -4,6 +4,7 @@ import "../assets/css/signIn.css";
 
 export default function SignIn() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,12 +24,12 @@ export default function SignIn() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Password and confirm password do not match");
+      setError("Password and confirm password do not match");
       return;
     }
 
     if (!username || !email || !password) {
-      alert("Please fill all required fields");
+      setError("Please fill all required fields");
       return;
     }
 
@@ -51,19 +52,20 @@ export default function SignIn() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Registration failed");
+        setError(data.message || "Registration failed");
         setLoading(false);
         return;
       }
 
       localStorage.setItem("token", data.token);
 
-      alert("Registration successful");
+      setError("");
       navigate("/dashboard");
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      setError("Server error");
+      return;
     }
 
     setLoading(false);
@@ -72,6 +74,7 @@ export default function SignIn() {
   return (
     <div className="form">
       <p className="title">Create account</p>
+      {error && <p className="error">{error}</p>}
 
       <form onSubmit={handleSubmit}>
         <input

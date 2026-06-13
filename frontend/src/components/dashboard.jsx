@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/dashboard.css";
 
 const API_BASE = "http://localhost:5000/api/application";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const [applications, setApplications] = useState([]);
 
   const [filters, setFilters] = useState({
@@ -35,10 +38,13 @@ export default function Dashboard() {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) window.location.href = "/login";
+    if (!token) {
+      navigate("/login");
+      return;
+    }
 
     init();
-  }, []);
+  }, [navigate]);
 
   async function init() {
     await Promise.all([fetchFilters(), fetchApplications()]);
@@ -87,10 +93,8 @@ export default function Dashboard() {
     if (filters.country) params.append("country", filters.country);
     if (filters.status) params.append("status", filters.status);
     if (filters.method) params.append("applicationMethod", filters.method);
-
-    if (filters.universityName) {
+    if (filters.universityName)
       params.append("universityName", filters.universityName);
-    }
 
     fetchApplications("?" + params.toString());
   }
@@ -138,11 +142,9 @@ export default function Dashboard() {
     e.preventDefault();
 
     const token = localStorage.getItem("token");
-
     const isEdit = !!editingId;
 
     const url = isEdit ? `${API_BASE}/${editingId}` : `${API_BASE}/create`;
-
     const method = isEdit ? "PATCH" : "POST";
 
     const payload = {
@@ -168,7 +170,7 @@ export default function Dashboard() {
     if (res.status === 401) return logout();
 
     if (!res.ok) {
-      alert("Failed to save application");
+      console.error("Failed to save application");
       return;
     }
 
@@ -189,7 +191,7 @@ export default function Dashboard() {
     if (res.status === 401) return logout();
 
     if (!res.ok) {
-      alert("Delete failed");
+      console.error("Delete failed");
       return;
     }
 
@@ -198,8 +200,9 @@ export default function Dashboard() {
 
   function logout() {
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    navigate("/login");
   }
+
   const totalApplications = applications.length;
 
   const totalUniversities = new Set(
@@ -238,6 +241,8 @@ export default function Dashboard() {
             </button>
           </div>
         </header>
+
+        {/* STATS */}
         <section className="dashboard-stats">
           <div className="stat-card">
             <h3>Total Universities</h3>
@@ -270,18 +275,17 @@ export default function Dashboard() {
           </div>
         </section>
 
+        {/* FILTERS */}
         <section className="filters">
           <input
             type="text"
             placeholder="Search university..."
             value={filters.universityName}
             onChange={(e) =>
-              setFilters({
-                ...filters,
-                universityName: e.target.value,
-              })
+              setFilters({ ...filters, universityName: e.target.value })
             }
           />
+
           <select
             value={filters.country}
             onChange={(e) =>
@@ -298,7 +302,9 @@ export default function Dashboard() {
 
           <select
             value={filters.status}
-            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, status: e.target.value })
+            }
           >
             <option value="">All Statuses</option>
             {filterOptions.status.map((s, i) => (
@@ -310,7 +316,9 @@ export default function Dashboard() {
 
           <select
             value={filters.method}
-            onChange={(e) => setFilters({ ...filters, method: e.target.value })}
+            onChange={(e) =>
+              setFilters({ ...filters, method: e.target.value })
+            }
           >
             <option value="">All Methods</option>
             {filterOptions.method.map((m, i) => (
@@ -325,6 +333,7 @@ export default function Dashboard() {
           </button>
         </section>
 
+        {/* TABLE (unchanged) */}
         <section className="data">
           <table>
             <thead>
@@ -358,13 +367,11 @@ export default function Dashboard() {
                         ? new Date(app.applicationDate).toLocaleDateString()
                         : ""}
                     </td>
-
                     <td>
                       <span className={`status ${app.status?.toLowerCase()}`}>
                         {app.status?.replaceAll("_", " ")}
                       </span>
                     </td>
-
                     <td>
                       <button
                         className="action-btn"
@@ -388,6 +395,7 @@ export default function Dashboard() {
         </section>
       </main>
 
+      {/* MODAL (unchanged) */}
       {isModalOpen && (
         <div className="modal-overlay active">
           <div className="modal-content">

@@ -316,3 +316,16 @@ textarea {
   font-size: 2rem;
   font-weight: bold;
 }
+.error {
+  background: #fff1f0;
+  border: 1px solid #ffccc7;
+  color: #a8071a;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  margin-bottom: 12px;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
