@@ -26,7 +26,11 @@ const register = async (req, res) => {
     return res
       .status(201)
       .json({
-        newUser: newUser,
+        user: {
+          id: newUser._id,
+          username: newUser.username,
+          email: newUser.email,
+        },
         token: accessToken,
         message: "new user registered successfully",
       });
