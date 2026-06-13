@@ -69,7 +69,7 @@ export default function SignIn() {
 
   return (
     <div className="form">
-      <p className="title">Sign In</p>
+      <p className="title">Create account</p>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -102,7 +102,7 @@ export default function SignIn() {
 
         <input
           type="submit"
-          value={loading ? "Creating account..." : "Sign In"}
+          value={loading ? "Creating account..." : "Register"}
           disabled={loading}
         />
 
