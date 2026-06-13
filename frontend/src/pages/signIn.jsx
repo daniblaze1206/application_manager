@@ -59,7 +59,7 @@ export default function SignIn() {
       localStorage.setItem("token", data.token);
 
       alert("Registration successful");
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
 
     } catch (err) {
       console.error(err);
