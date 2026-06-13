@@ -5,6 +5,7 @@ import "../assets/css/login.css";
 
 
 export default function Login() {
+  const [error, setError] = useState("");
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
@@ -21,7 +22,7 @@ export default function Login() {
     e.preventDefault();
 
     if (!identifier || !password) {
-      alert("Please fill all fields");
+      setError("Please fill all fields");
       return;
     }
 
@@ -42,18 +43,19 @@ export default function Login() {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Invalid credentials");
+        setError(data.message || "Invalid credentials");
         setLoading(false);
         return;
       }
 
       localStorage.setItem("token", data.token);
-      alert("Login successful");
+      setError("");
       navigate("/dashboard");
 
     } catch (err) {
       console.error(err);
-      alert("Server error");
+      setError("Server error");
+      return;
     }
 
     setLoading(false);
@@ -62,6 +64,8 @@ export default function Login() {
   return (
     <div className="container">
       <p className="title">Login</p>
+
+      {error && <p className="error">{error}</p>}
 
       <form className="container-form" onSubmit={handleSubmit}>
         <input
