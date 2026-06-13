@@ -88,7 +88,7 @@ export default function SignIn() {
 
         <input
           type="password"
-          placeholder="Password"
+          placeholder="Password (min 8 characters)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
