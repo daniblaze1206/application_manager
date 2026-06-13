@@ -32,7 +32,7 @@ const applicationModel = new mongoose.Schema({
 	applicationMethod: {
 		type: String,
 		enum: ["EMAIL", "PORTAL"],
-		requried: true
+		required: true
 	},
 	applicationDate: {
 		type: Date,
