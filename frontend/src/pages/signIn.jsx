@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/signIn.css";
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,7 +14,7 @@ export default function SignIn() {
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
     }
   }, []);
 
