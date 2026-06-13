@@ -1,10 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "../assets/css/login.css";
+
+
 
 export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -45,7 +49,7 @@ export default function Login() {
 
       localStorage.setItem("token", data.token);
       alert("Login successful");
-      window.location.href = "/dashboard";
+      navigate("/dashboard");
 
     } catch (err) {
       console.error(err);
