@@ -10,7 +10,7 @@ They system target students applying for bachelor's, Master's and PhD abroad.
 
 The system follows the traditional client-server architecture.
 Frontend:
-- built using HTML, CSS and vanilla JavaScript.
+- built using React (single-page application).
 - communicates with backend using REST API.
 - sends and receives JSON over HTTP.
 

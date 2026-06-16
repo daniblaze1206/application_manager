@@ -92,7 +92,7 @@ Example:
 ```
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/Application_Manager
-JWT_SECRET=your_secret_key
+secret_key=your_secret_key
 NODE_ENV=development
 ```
 
@@ -254,7 +254,7 @@ All routes below require a valid **JWT token**.
 
 ### Create Application
 ```
-POST /api/applications/create
+POST /api/application/create
 ```
 Example request:
 ```json
@@ -273,7 +273,7 @@ Example request:
 
 ### Get Authenticated User's Applications
 ```
-GET /api/applications/me
+GET /api/application/me
 ```
 Returns all applications with applied filters belonging to the authenticated user.
 
@@ -281,7 +281,7 @@ Returns all applications with applied filters belonging to the authenticated use
 
 ### Filter Options
 ```
-GET /api/applications/filters
+GET /api/application/filters
 ```
 Returns options for filter fields such as:
 - country
@@ -292,14 +292,14 @@ Returns options for filter fields such as:
 
 ### Update Application
 ```
-PATCH /api/applications/:id
+PATCH /api/application/:id
 `````
 
 ---
 
 ### Delete Application
 ```
-DELETE /api/applications/:id
+DELETE /api/application/:id
 ```
 
 ---
