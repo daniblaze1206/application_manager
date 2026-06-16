@@ -302,9 +302,7 @@ export default function Dashboard() {
 
           <select
             value={filters.status}
-            onChange={(e) =>
-              setFilters({ ...filters, status: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, status: e.target.value })}
           >
             <option value="">All Statuses</option>
             {filterOptions.status.map((s, i) => (
@@ -316,9 +314,7 @@ export default function Dashboard() {
 
           <select
             value={filters.method}
-            onChange={(e) =>
-              setFilters({ ...filters, method: e.target.value })
-            }
+            onChange={(e) => setFilters({ ...filters, method: e.target.value })}
           >
             <option value="">All Methods</option>
             {filterOptions.method.map((m, i) => (
@@ -395,10 +391,17 @@ export default function Dashboard() {
         </section>
       </main>
 
-      {/* MODAL (unchanged) */}
+
       {isModalOpen && (
         <div className="modal-overlay active">
           <div className="modal-content">
+            <button
+              className="close-modal"
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+            >
+              ×
+            </button>
             <h2>{editingId ? "Edit Application" : "Add New Application"}</h2>
 
             <form onSubmit={handleSubmit} id="createAppForm">
