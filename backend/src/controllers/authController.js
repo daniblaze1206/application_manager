@@ -22,7 +22,6 @@ const register = async (req, res) => {
       { userId: newUser._id },
       process.env.secret_key,
     );
-    console.log(accessToken.userId);
     return res
       .status(201)
       .json({
