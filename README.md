@@ -1,4 +1,3 @@
-
 # Application Manager
 
 Application Manager is a web-based system designed to help students **track and manage their applications to international universities**.
@@ -11,7 +10,7 @@ The system targets students applying for **Bachelor's, Master's, and PhD program
 
 # System Architecture
 
-The system follows a **client–server architecture**.
+The system follows a **clientâ€“server architecture**.
 
 ## Frontend
 - Built as a **React single-page application (SPA)**
@@ -46,6 +45,7 @@ backend/
     validators/
     configs/
     app.js
+  server.js
 
 frontend/
   (React application)
@@ -53,12 +53,12 @@ frontend/
 
 ## Responsibilities
 
-- **Routes** → Define API endpoints
-- **Controllers** → Validate input (using validators) and implement the backend business logic
-- **Models** → Define database schema
-- **Middlewares** → Handle authentication
-- **Validators** → Validate request input
-- **Configs** → Manage environment configuration
+- **Routes** â†’ Define API endpoints
+- **Controllers** â†’ Validate input (using validators) and implement the backend business logic
+- **Models** â†’ Define database schema
+- **Middlewares** â†’ Handle authentication
+- **Validators** â†’ Validate request input
+- **Configs** â†’ Manage environment configuration
 
 This separation improves **scalability, readability, and maintainability**.
 
@@ -71,6 +71,7 @@ This separation improves **scalability, readability, and maintainability**.
 git clone https://github.com/DaniBlaze1206/Application_Manager.git
 cd Application_Manager
 ```
+
 ---
 
 # Running the Backend
@@ -86,22 +87,18 @@ npm install
 ```
 
 ## 3. Create environment file
-Create a `.env` file inside the backend folder.
-
-Example:
+Copy the example file and fill in your values:
+```bash
+cp .env.example .env
 ```
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/Application_Manager
-secret_key=your_secret_key
-NODE_ENV=development
-```
+The `.env.example` file in the backend folder lists all required variables.
 
 ## 4. Start the backend server
 ```bash
 npm start
 ```
 
-or if using nodemon:
+or for local development with auto-restart:
 ```bash
 npm run dev
 ```
@@ -135,6 +132,22 @@ The frontend will run on:
 http://localhost:5173
 ```
 Open the browser and navigate to that address.
+
+---
+
+# Running Tests
+
+## 1. Navigate to the backend directory
+```bash
+cd backend
+```
+
+## 2. Run the test suite
+```bash
+npm test
+```
+
+Runs automated tests for authentication and application routes.
 
 ---
 
@@ -200,7 +213,7 @@ Fields:
 
 Relationship:
 ```
-User (1) → (N) Applications
+User (1) â†’ (N) Applications
 ```
 
 Design decisions:
@@ -229,6 +242,7 @@ Request body:
   "confirmPassword": "password123"
 }
 ```
+
 ---
 
 ### Login
@@ -269,6 +283,7 @@ Example request:
   "notes": "Prepare recommendation letters"
 }
 ```
+
 ---
 
 ### Get Authenticated User's Applications
@@ -293,7 +308,7 @@ Returns options for filter fields such as:
 ### Update Application
 ```
 PATCH /api/application/:id
-`````
+```
 
 ---
 
@@ -317,7 +332,7 @@ DELETE /api/application/:id
 
 The backend is deployed as a **Node.js service** on a cloud hosting provider.
 
-The frontend is a **React single‑page application (SPA)** that communicates with the backend via its public REST API.
+The frontend is a **React singleâ€‘page application (SPA)** that communicates with the backend via its public REST API.
 
 ## Environment variables in production
 - Database connection string
